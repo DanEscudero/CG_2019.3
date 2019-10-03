@@ -1,0 +1,1 @@
+sudo apt install libglfw3-dev freeglut3-dev libglm-dev
