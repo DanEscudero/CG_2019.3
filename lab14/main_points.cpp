@@ -1,8 +1,15 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <vector>
+#include <utility>
+#include <random>
+#include <tuple>
+
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+
+using namespace std;
 
 void defineViewport()
 {
@@ -26,9 +33,10 @@ void drawPoint(float x, float y, int size = 10)
 
 void drawSmoothPoint(float x, float y, int size = 10)
 {
-    glEnable(GL_POINT_SMOOTH); // make the point circular
+    // NOTE: Dependente do hardware - pode nao funcionar
+    glEnable(GL_POINT_SMOOTH);
     drawPoint(x, y, size);
-    glDisable(GL_POINT_SMOOTH); // stop the smoothing to make the points circular
+    glDisable(GL_POINT_SMOOTH);
 }
 
 int main(void)
@@ -55,15 +63,35 @@ int main(void)
 
     defineViewport();
 
+    const int nPoints = 200;
+    vector<pair<pair<double, double>,double>> pts;
+
+    const int maxSpeed = 100;
+    for (int i = 0; i<nPoints; i++) {
+        double x = rand() % SCREEN_WIDTH;
+        double y = 0;
+        double speed = ((rand() % maxSpeed) / 10.0) + 1;
+        pts.emplace_back(pair<double, double>(x, y),speed);
+    }
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Render OpenGL here
-        drawPoint(100, 100, 15);
-        drawSmoothPoint(200, 100, 30);
 
+        for (auto &p : pts) {
+            double x, y;
+            tie(x,y) = p.first;
+            double speed = p.second;
+
+            drawPoint(x, y, 5);
+
+            p.first.second -= speed;
+            if (p.first.second < 0) p.first.second = SCREEN_HEIGHT;
+        }
+        
         // Swap front and back buffers
         glfwSwapBuffers(window);
 
