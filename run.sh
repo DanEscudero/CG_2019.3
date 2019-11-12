@@ -1,5 +1,8 @@
 #!/bin/bash
 
+LAB=${1:-1}
+MAIN_FILE=${2:-"main"}
+
 cd lab$1
-g++ main.cpp -o out.out -lGL -lglfw -l GLEW && ./out.out
+g++ $MAIN_FILE.cpp -o out.out -lGL -lglfw -lGLEW && ./out.out
 cd ..
