@@ -69,8 +69,13 @@ int main(void)
     const int maxSpeed = 100;
     for (int i = 0; i<nPoints; i++) {
         double x = rand() % SCREEN_WIDTH;
-        double y = 0;
+        double y = 40;
+
+        // Uma vez que rand() % maxSpeed é um int, dividimos por 10.0 para garantir um double
+        // Soma 1 para nao ter pontos com velocidade 0
         double speed = ((rand() % maxSpeed) / 10.0) + 1;
+
+        // Salva o ponto no vector pts
         pts.emplace_back(pair<double, double>(x, y),speed);
     }
 
@@ -79,16 +84,19 @@ int main(void)
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Render OpenGL here
-
         for (auto &p : pts) {
-            double x, y;
-            tie(x,y) = p.first;
+            // Extrai informações de posição
+            double x = p.first.first;
+            double y = p.first.second;
+
+            // Extrai informações de velocidade
             double speed = p.second;
 
             drawPoint(x, y, 5);
 
+            // Atualiza o valor da posição y do ponto de acordo com a velocidade
             p.first.second -= speed;
+            // Caso o ponto esteja fora da tela, retorna-o para cima
             if (p.first.second < 0) p.first.second = SCREEN_HEIGHT;
         }
         

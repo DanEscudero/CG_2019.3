@@ -29,13 +29,13 @@ int main(void)
         |       |
         D_______C
     */
-   const float size = 0.5;
+    const float size = 0.8;
     float vertices[] =
         {
-            -size, +size, +0.0, // A
-            +size, +size, +0.0, // B
-            +size, -size, +0.0, // C
-            -size, -size, +0.0 // D
+            -size, +size, 0.0, // A
+            +size, +size, 0.0, // B
+            +size, -size, 0.0, // C
+            -size, -size, 0.0 // D
         };
 
     /* Loop until the user closes the window */
@@ -44,10 +44,9 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Render OpenGL here
-
         glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(2, GL_FLOAT, 0, vertices);
-        glDrawArrays(GL_POINTS, 0, 1);
+        glVertexPointer(3, GL_FLOAT, 0, vertices);
+        glDrawArrays(GL_QUADS, 0, 4);
         glDisableClientState(GL_VERTEX_ARRAY);
 
         // Swap front and back buffers

@@ -47,10 +47,6 @@ int main(void)
 
     defineViewport();
 
-    float lineVertices[] =
-        {100, 200, 0.0,
-         150, 400, 0.0};
-
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -58,6 +54,12 @@ int main(void)
 
         glLineWidth(3);
         drawLine(100, 200, 140, 400);
+
+        // const int step = 100;
+        // for (int i = 0; i < 5; i++) {
+        //     const int lineXOffset = step * i;
+        //     drawLine(100 + lineXOffset, 200, 140 + lineXOffset, 400);
+        // }
 
         // Swap front and back buffers
         glfwSwapBuffers(window);
