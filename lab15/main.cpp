@@ -21,7 +21,7 @@ using namespace glm;
 
 using namespace std;
 
-#include "shader.cpp"
+#include "common/shader.cpp"
 
 double currentTime = 0;
 double keyPressDelay = 0.015;
@@ -234,7 +234,7 @@ int main(void)
 	glBindVertexArray(VertexArrayID);
 
 	// Create and compile our GLSL program from the shaders
-	GLuint programID = LoadShaders("SimpleTransform.vertexshader", "SingleColor.fragmentshader");
+	GLuint programID = LoadShaders("shader/SimpleTransform.vertexshader", "shader/SingleColor.fragmentshader");
 
 	// Get a handle for our "MVP" uniform
 	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
