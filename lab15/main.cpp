@@ -25,7 +25,7 @@ using namespace std;
 
 // Auxiliares para controlar input do teclado
 double currentTime = 0;
-double keyPressDelay = 0.001;
+double keyPressDelay = 0.01;
 double lastPressedKey = 0;
 
 // Matrizes de transformação
@@ -146,11 +146,6 @@ void resetScale()
 	scaleMatrix = glm::mat4(1.0f);
 }
 
-void resetRotation()
-{
-	rotationMatrix = glm::mat4(1.0f);
-}
-
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
 	currentTime = ((double)clock()) / CLOCKS_PER_SEC;
@@ -161,9 +156,6 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
 	if (key == GLFW_KEY_X)
 		rotate('x');
-
-	if (key == GLFW_KEY_C)
-		rotationMatrix *= getRotation('x', -0.15);
 
 	if (key == GLFW_KEY_Y)
 		rotate('y');
@@ -263,6 +255,7 @@ int main(void)
 	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
 	// Projection matrix : 45 Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
 
 	// Camera matrix
@@ -326,10 +319,8 @@ int main(void)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-
-		Model *= rotationMatrix;
 		Model *= scaleMatrix;
-
+		Model *= rotationMatrix;
 		Model *= translationMatrix;
 
 		MVP = Projection * View * Model;
@@ -337,7 +328,6 @@ int main(void)
 		// Reset translation and scale matrix
 		// Rotation shouldn't be reset, because it's state is controlled with rotationState
 		resetScale();
-		resetRotation();
 		resetTranslation();
 	} // Check if the ESC key was pressed or the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
