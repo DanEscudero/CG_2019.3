@@ -29,7 +29,6 @@ float verticalAngle = 0.0f;
 float initialFoV = 45.0f;
 
 float speed = 3.0f;
-// float speed = 15.0f;
 float mouseSpeed = 0.004f;
 
 void computeMatricesFromInputs()
@@ -54,16 +53,10 @@ void computeMatricesFromInputs()
 	verticalAngle += mouseSpeed * float(768 / 2 - ypos);
 
 	// Direction : Spherical coordinates to Cartesian coordinates conversion
-	glm::vec3 direction(
-		cos(verticalAngle) * sin(horizontalAngle),
-		sin(verticalAngle),
-		cos(verticalAngle) * cos(horizontalAngle));
+	glm::vec3 direction(cos(verticalAngle) * sin(horizontalAngle), sin(verticalAngle), cos(verticalAngle) * cos(horizontalAngle));
 
 	// Right vector
-	glm::vec3 right = glm::vec3(
-		sin(horizontalAngle - 3.14f / 2.0f),
-		0,
-		cos(horizontalAngle - 3.14f / 2.0f));
+	glm::vec3 right = glm::vec3(sin(horizontalAngle - 3.14f / 2.0f), 0, cos(horizontalAngle - 3.14f / 2.0f));
 
 	// Up vector
 	glm::vec3 up = glm::cross(right, direction);
@@ -93,6 +86,7 @@ void computeMatricesFromInputs()
 
 	// Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	ProjectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
+
 	// Camera matrix
 	ViewMatrix = glm::lookAt(
 		position,			  // Camera is here
